@@ -1,24 +1,32 @@
+/* Arquivo:  
+ *    pth_semaphore2.c
+ *
+ * Propósito:
+ *    Exemplificar o uso de semáforo como mutex.
+ *
+ *
+ * Compile:  gcc -g -Wall -o pth_semaphore2 pth_semaphore2.c -lpthread -lrt
+ * Usage:    ./pth_semaphore2 
+ *
+ */
 #include <stdio.h>
-#include <stdlib.h>
 #include <pthread.h> 
-#include <unistd.h>
-#include <string.h>
-#include <time.h>
+#include <semaphore.h>
 
 int publico = 0;
 
-pthread_mutex_t mutex;
+sem_t semaphore; 
 
 void incPublico() {
-   pthread_mutex_lock(&mutex); // Bloqueante
-   publico++; // Região crítica
-   pthread_mutex_unlock(&mutex);
+   sem_wait(&semaphore);
+   publico++;
+   sem_post(&semaphore);
 }
 
 void *execute() {
    int i;
 
-   for  (i = 1; i <= 10000000; i++) {
+   for  (i = 1; i <= 100000; i++) {
       incPublico();
    }
    return NULL;
@@ -29,7 +37,7 @@ void *execute() {
 int main(int argc, char* argv[]) {
    pthread_t t1, t2, t3, t4; 
    
-   pthread_mutex_init(&mutex, NULL);
+   sem_init(&semaphore, 0, 1);
 
    // Criação e execução das threads
    pthread_create(&t1, NULL, execute, NULL);  
@@ -44,7 +52,8 @@ int main(int argc, char* argv[]) {
    pthread_join(t4, NULL); 
 
    printf("Público final: %d\n", publico);
-   pthread_mutex_destroy(&mutex);
+
+   sem_destroy(&semaphore);
 
    return 0;
 }  /* main */

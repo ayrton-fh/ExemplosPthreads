@@ -1,20 +1,3 @@
-/* Arquivo:  
- *    pth_lembrete.c
- *
- * Propósito:
- *    Implementar um gerenciador de lembretes de medicamentos usando 
- *    pthreads. Cada thread fica responsável por lembrar o usuário de
- *    um único medicamento.
- *
- * Input:
- *    nenhum
- * Output:
- *    Mensagens de cada thread lembrando o usuário de tomar o medicamento.  
- *
- * Compile:  gcc -g -Wall -o pth_lembrete pth_lembrete.c -lpthread
- * Usage:    ./pth_lembrete 
- *
- */
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h> 
@@ -22,17 +5,16 @@
 #include <string.h>
 #include <time.h>
 
-
 int publico = 0;
 
-void incPublico(){
+void incPublico() {
    publico++;
 }
 
 void *execute() {
    int i;
 
-   for  (i = 1; i <= 100000; i++){
+   for  (i = 1; i <= 10000000; i++) {
       incPublico();
    }
    return NULL;
@@ -58,5 +40,3 @@ int main(int argc, char* argv[]) {
    printf("Público final: %d\n", publico);
    return 0;
 }  /* main */
-
-
