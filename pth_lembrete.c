@@ -22,7 +22,6 @@
 #include <string.h>
 #include <time.h>
 
-
 struct Medicacao{
    char nome[50];
    int intervalo;
@@ -88,4 +87,3 @@ void *Lembrete(void* medicacao) {
    free(med);
    return NULL;
 }  /* Lembrete */
-
